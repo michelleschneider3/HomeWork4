@@ -1,4 +1,5 @@
 public abstract class Pokemon {
+
     private String name;
     private int level;
     private int maximumHealth;
@@ -8,6 +9,16 @@ public abstract class Pokemon {
 
     private int currentAttackPoints;
     private Attack[] attacks;
+
+    protected Pokemon(String name, int level, int maximumHealth, int maximumAttack, Attack[] attacks){
+        this.name = name;
+        this.level = level;
+        this.maximumHealth = maximumHealth;
+        //this.currentHealth = maximumHealth;
+        this.maximumAttackPoints = maximumAttack;
+        this.addAttacks(attacks);
+        //this.setCurrentAttackPoints();
+    }
 
     public String getName() {
         return name;
@@ -53,7 +64,7 @@ public abstract class Pokemon {
         this.maximumAttackPoints = maximumAttackPoints;
     }
 
-    public void addAttack (Attack[] newAttacks) {
+    public void addAttacks (Attack[] newAttacks) {
         int arrayLength = 0;
         if (this.attacks != null) {
             arrayLength = this.attacks.length;
@@ -82,5 +93,9 @@ public abstract class Pokemon {
 
     private int calculateStartAttackPoints () {
         return (Constants.START_ATTACK_POINTS_PERCENTAGE*this.maximumAttackPoints)/Constants.MAXIMUM_ATTACK_POINTS_PERCENTAGE;
+    }
+
+    public String toString(){
+        return this.name;
     }
 }

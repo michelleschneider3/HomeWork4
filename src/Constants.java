@@ -25,6 +25,8 @@ public class Constants {
     public static final Attack THUNDER = new Attack("Thunder", 60, 40, 50);
     public static final Attack THUNDER_PUNCH = new Attack("Thunder Punch", 80, 50, 120);
 
+
+
     public static final FirePokemon[] CHARMANDER = new FirePokemon[] {
             new FirePokemon("Charmander", 1, 80, 40, new Attack[] {
                     KICK, SCRATCH
