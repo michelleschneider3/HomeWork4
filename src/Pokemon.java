@@ -53,22 +53,22 @@ public abstract class Pokemon {
         this.maximumAttackPoints = maximumAttackPoints;
     }
 
-    public void addAttack (Attack[] attack) {
+    public void addAttack (Attack[] newAttacks) {
         int arrayLength = 0;
         if (this.attacks != null) {
             arrayLength = this.attacks.length;
         }
-        Attack[] largerArray = new Attack[arrayLength + attack.length];
+        Attack[] largerArray = new Attack[arrayLength + newAttacks.length];
         for (int i = 0; i < arrayLength; i++) {
             largerArray[i] = attacks[i];
         }
         int currentIndex = arrayLength;
         int i = 0;
         do {
-            largerArray[currentIndex] = attack[i];
+            largerArray[currentIndex] = newAttacks[i];
             currentIndex++;
             i++;
-        } while (i != attack.length);
+        } while (i != newAttacks.length);
         this.attacks = largerArray;
     }
 
@@ -80,7 +80,7 @@ public abstract class Pokemon {
         this.currentAttackPoints = calculateStartAttackPoints();
     }
 
-    protected int calculateStartAttackPoints () {
+    private int calculateStartAttackPoints () {
         return (Constants.START_ATTACK_POINTS_PERCENTAGE*this.maximumAttackPoints)/Constants.MAXIMUM_ATTACK_POINTS_PERCENTAGE;
     }
 }
