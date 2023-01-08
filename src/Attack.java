@@ -21,4 +21,11 @@ public class Attack {
         return result;
     }
 
+    public String toString () {
+        String outPut = "Attack: " + this.name + "(" + this.attackPointsCost + "pts)";
+        outPut += " Damage: ";
+        outPut += (this.minimumDamage==this.maximumDamage)? + this.maximumDamage: this.minimumDamage + "-" + this.maximumDamage;
+        return outPut;
+    }
+
 }

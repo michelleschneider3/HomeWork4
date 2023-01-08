@@ -1,5 +1,4 @@
 public abstract class Pokemon {
-
     private String name;
     private int level;
     private int maximumHealth;
@@ -10,6 +9,8 @@ public abstract class Pokemon {
     private int currentAttackPoints;
     private Attack[] attacks;
 
+    public abstract int getType();
+
     protected Pokemon(String name, int level, int maximumHealth, int maximumAttack, Attack[] attacks){
         this.name = name;
         this.level = level;
@@ -18,6 +19,14 @@ public abstract class Pokemon {
         this.maximumAttackPoints = maximumAttack;
         this.addAttacks(attacks);
         //this.setCurrentAttackPoints();
+    }
+
+    public Pokemon(Pokemon other){
+        this.name = other.name;
+        this.level = other.level;
+        this.maximumHealth = other.maximumHealth;
+        this.maximumAttackPoints = other.maximumAttackPoints;
+        this.attacks = other.attacks;
     }
 
     public String getName() {
@@ -61,7 +70,12 @@ public abstract class Pokemon {
     }
 
     public void setMaximumAttackPoints(int maximumAttackPoints) {
-        this.maximumAttackPoints = maximumAttackPoints;
+        //this.maximumAttackPoints = maximumAttackPoints;
+    }
+
+    public void calculateStartGameStats() {
+        this.currentHealth = this.maximumHealth;
+        this.currentAttackPoints = calculateStartAttackPoints();
     }
 
     public void addAttacks (Attack[] newAttacks) {
@@ -96,6 +110,24 @@ public abstract class Pokemon {
     }
 
     public String toString(){
-        return this.name;
+        String outPut = "-------------------------------------------------";
+        outPut += "\nName: " + this.name;
+        outPut += ", Lvl: " + this.level;
+        outPut += ", Hp: " + this.currentHealth + "/" + this.maximumHealth;
+        outPut += ", Attack Pts: " + this.currentAttackPoints + "/" + this.maximumAttackPoints;
+        outPut += printAttacks();
+        outPut += "\n-------------------------------------------------";
+        return outPut;
+    }
+
+    private String printAttacks() {
+        String result = "";
+        if (this.attacks != null) {
+            for (int i = 0; i < attacks.length; i++) {
+                int num = i+1;
+                result += "\n" + num + ". " + attacks[i].toString();
+            }
+        }
+        return result;
     }
 }
