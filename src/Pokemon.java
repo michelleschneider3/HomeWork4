@@ -11,6 +11,9 @@ public abstract class Pokemon {
 
     public abstract int getType();
 
+    public abstract void specialPower();
+
+    public abstract void uniqueAbility ();
     protected Pokemon(String name, int level, int maximumHealth, int maximumAttack, Attack[] attacks){
         this.name = name;
         this.level = level;
@@ -19,6 +22,9 @@ public abstract class Pokemon {
         this.maximumAttackPoints = maximumAttack;
         this.addAttacks(attacks);
         //this.setCurrentAttackPoints();
+        if (level == 1) {
+            this.calculateStartGameStats();
+        }
     }
 
     public Pokemon(Pokemon other){
@@ -27,6 +33,8 @@ public abstract class Pokemon {
         this.maximumHealth = other.maximumHealth;
         this.maximumAttackPoints = other.maximumAttackPoints;
         this.attacks = other.attacks;
+        this.currentHealth = other.currentHealth;
+        this.currentAttackPoints = other.currentAttackPoints;
     }
 
     public String getName() {
@@ -73,9 +81,10 @@ public abstract class Pokemon {
         //this.maximumAttackPoints = maximumAttackPoints;
     }
 
-    public void calculateStartGameStats() {
+    private void calculateStartGameStats() {
         this.currentHealth = this.maximumHealth;
-        this.currentAttackPoints = calculateStartAttackPoints();
+        this.currentAttackPoints = calculateStartAttackPoints(this.maximumAttackPoints);
+        this.addAttacks(AttackArchive.KICK);
     }
 
     public void addAttacks (Attack[] newAttacks) {
@@ -101,12 +110,8 @@ public abstract class Pokemon {
         return currentAttackPoints;
     }
 
-    public void setCurrentAttackPoints() {
-        this.currentAttackPoints = calculateStartAttackPoints();
-    }
-
-    private int calculateStartAttackPoints () {
-        return (Constants.START_ATTACK_POINTS_PERCENTAGE*this.maximumAttackPoints)/Constants.MAXIMUM_ATTACK_POINTS_PERCENTAGE;
+    private int calculateStartAttackPoints (int maximumAttackPoints) {
+        return (Constants.START_ATTACK_POINTS_PERCENTAGE*maximumAttackPoints)/Constants.MAXIMUM_ATTACK_POINTS_PERCENTAGE;
     }
 
     public String toString(){

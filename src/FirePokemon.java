@@ -1,5 +1,13 @@
-public class FirePokemon extends Pokemon implements FireAbilities {
+public class FirePokemon extends Pokemon {
     private int type;
+
+    public void uniqueAbility () {
+
+    }
+
+    public void specialPower() {
+
+    };
     public FirePokemon (String name, int level, int maximumHealth, int maximumAttack, Attack[] attacks) {
         super(name,level,maximumHealth,maximumAttack, attacks);
         this.type = Constants.FIRE_TYPE;

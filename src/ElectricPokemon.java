@@ -1,6 +1,14 @@
-public class ElectricPokemon extends Pokemon implements ElectricAbilities {
+public class ElectricPokemon extends Pokemon {
     private int electricity;
     private int type;
+
+    public void uniqueAbility () {
+
+    }
+
+    public void specialPower() {
+
+    };
 
     public ElectricPokemon (String name, int level, int maximumHealth, int maximumAttack, Attack[] attacks) {
         super(name,level,maximumHealth,maximumAttack, attacks);
