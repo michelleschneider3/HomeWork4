@@ -28,4 +28,7 @@ public class Attack {
         return outPut;
     }
 
+    public int getAttackPointsCost() {
+        return attackPointsCost;
+    }
 }

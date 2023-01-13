@@ -111,7 +111,7 @@ public abstract class Pokemon {
     }
 
     private int calculateStartAttackPoints (int maximumAttackPoints) {
-        return (Constants.START_ATTACK_POINTS_PERCENTAGE*maximumAttackPoints)/Constants.MAXIMUM_ATTACK_POINTS_PERCENTAGE;
+        return (Constants.START_ATTACK_POINTS_PERCENTAGE*maximumAttackPoints)/Constants.MAXIMUM_PERCENTAGE;
     }
 
     public String toString(){
@@ -120,7 +120,6 @@ public abstract class Pokemon {
         outPut += ", Lvl: " + this.level;
         outPut += ", Hp: " + this.currentHealth + "/" + this.maximumHealth;
         outPut += ", Attack Pts: " + this.currentAttackPoints + "/" + this.maximumAttackPoints;
-        outPut += printAttacks();
         outPut += "\n-------------------------------------------------";
         return outPut;
     }
@@ -134,5 +133,62 @@ public abstract class Pokemon {
             }
         }
         return result;
+    }
+
+    public boolean makeAttack (Pokemon other) {
+        int userInput;
+        do {
+            userInput = chooseAttack();
+        } while (!checkPoints(userInput));
+        this.currentAttackPoints-= this.attacks[userInput-1].getAttackPointsCost();
+        this.takeDamage(this.attacks[userInput-1], other);
+        return this.checkIfDead(other);
+    }
+
+
+
+    private boolean checkIfAttackExist (int userInput) {
+        boolean result = false;
+        if (this.attacks.length>=userInput && userInput>0) {
+            result = true;
+        } else {
+            System.out.println("Please choose valid option");
+        }
+        return result;
+    }
+
+    private int chooseAttack () {
+        int userInput;
+        do {
+            System.out.println(this.printAttacks());
+            userInput = Constants.SCANNER.nextInt();
+            Constants.SCANNER.nextLine();
+        } while (!checkIfAttackExist(userInput));
+        return userInput;
+    }
+
+    private boolean checkPoints (int userInput) {
+        boolean result = false;
+        if (this.currentAttackPoints>=this.attacks[userInput-1].getAttackPointsCost()) {
+            result = true;
+        } else {
+            System.out.println("You dont have enough points");
+        }
+        return result;
+    }
+
+    private void takeDamage (Attack attack, Pokemon other) {
+        int damage = attack.randomizeDamage();
+        other.setCurrentHealth(other.getCurrentHealth()-damage);
+    }
+
+    protected void charge ()
+
+    private boolean checkIfDead (Pokemon other) {
+        boolean isDead = false;
+        if (other.currentHealth<=0) {
+            isDead = true;
+        }
+        return isDead;
     }
 }

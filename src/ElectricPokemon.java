@@ -3,7 +3,7 @@ public class ElectricPokemon extends Pokemon {
     private int type;
 
     public void uniqueAbility () {
-
+        this.electricity +=5;
     }
 
     public void specialPower() {

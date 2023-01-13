@@ -1,21 +1,48 @@
 public class Main {
+    private static Pokemon[] currentPlayer = assignNewPokemon();
+
+    private static Pokemon[] otherPlayer = assignNewPokemon();
+
+    private static String currentPlayerName = Constants.PLAYER1NAME;
     public static void main(String[] args) {
-      Pokemon[] firstPlayer = assignNewPokemon();
-      Pokemon[] secondPlayer = assignNewPokemon();
-      Pokemon[] currentPlayer = firstPlayer;
         welcomeMessage();
+        fightMenu();
+
 //        System.out.println(firstPlayer[0]);
 //        System.out.println(secondPlayer[1]);
     }
 
-    private static void fightMenu(Pokemon[] currentPlayer) {
-        System.out.println("""
+    private static void fightMenu() {
+        int userInput;
+        boolean endLoop = false;
+        do {
+            System.out.println(currentPlayer[0] + " (" + currentPlayerName + ")");
+            switchPlayerName();
+            System.out.println(otherPlayer[0] + " (" + currentPlayerName + ")");
+            switchPlayerName();
+            System.out.println("Current player: " + currentPlayer[0].getName() + " (" + currentPlayerName+ ")");
+            System.out.println("""
                 Choose from the options below
                 1. Choose Attack
                 2. Skip turn
                 3. Level up
                 4. Special power
                 """);
+            userInput = Constants.SCANNER.nextInt();
+            Constants.SCANNER.nextLine();
+
+            switch (userInput) {
+                case 1 -> {
+                    if (currentPlayer[0].makeAttack(otherPlayer[0])) {
+                        System.out.println(otherPlayer[0].getName() + " is Dead");
+                        endLoop = true;
+                    } else {
+                        switchPlayer();
+                    }
+                }
+                default -> System.out.println("Please choose a valid option");
+            }
+        } while (!endLoop);
     }
     private static void welcomeMessage () {
         System.out.println("""
@@ -30,13 +57,19 @@ public class Main {
         Constants.SCANNER.nextLine();
         System.out.println("start");
     }
-    private static Pokemon[] switchPlayer (Pokemon[] firstPlayer, Pokemon[] secondPlayer, Pokemon[] currentPlayer) {
-        if (currentPlayer == firstPlayer) {
-            currentPlayer = secondPlayer;
+    private static void switchPlayer () {
+        Pokemon[] temp = currentPlayer;
+        currentPlayer = otherPlayer;
+        otherPlayer = temp;
+        switchPlayerName();
+    }
+
+    private static void switchPlayerName () {
+        if (currentPlayerName.equals(Constants.PLAYER1NAME)) {
+            currentPlayerName = Constants.PLAYER2NAME;
         } else {
-            currentPlayer = firstPlayer;
+            currentPlayerName = Constants.PLAYER1NAME;
         }
-        return currentPlayer;
     }
 
     private static Pokemon[] assignNewPokemon () {
