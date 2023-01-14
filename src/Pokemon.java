@@ -120,7 +120,6 @@ public abstract class Pokemon {
         outPut += ", Lvl: " + this.level;
         outPut += ", Hp: " + this.currentHealth + "/" + this.maximumHealth;
         outPut += ", Attack Pts: " + this.currentAttackPoints + "/" + this.maximumAttackPoints;
-        outPut += "\n-------------------------------------------------";
         return outPut;
     }
 
@@ -142,7 +141,7 @@ public abstract class Pokemon {
         } while (!checkPoints(userInput));
         this.currentAttackPoints-= this.attacks[userInput-1].getAttackPointsCost();
         this.takeDamage(this.attacks[userInput-1], other);
-        return this.checkIfDead(other);
+        return other.checkIfDead();
     }
 
 
@@ -179,14 +178,19 @@ public abstract class Pokemon {
 
     private void takeDamage (Attack attack, Pokemon other) {
         int damage = attack.randomizeDamage();
+        removeBonus();
         other.setCurrentHealth(other.getCurrentHealth()-damage);
     }
 
-    protected void charge ()
+    private void removeBonus () {
+        for (int i = 0; i < this.attacks.length; i++) {
+            this.attacks[i].setBonusDamage(0);
+        }
+    }
 
-    private boolean checkIfDead (Pokemon other) {
+    private boolean checkIfDead () {
         boolean isDead = false;
-        if (other.currentHealth<=0) {
+        if (this.currentHealth<=0) {
             isDead = true;
         }
         return isDead;

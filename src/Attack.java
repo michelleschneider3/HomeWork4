@@ -4,6 +4,12 @@ public class Attack {
     private int minimumDamage;
     private int maximumDamage;
 
+    private int bonusDamage;
+
+    public void setBonusDamage(int bonusDamage) {
+        this.bonusDamage = bonusDamage;
+    }
+
     public Attack (String name, int attackPointsCost, int minimumDamage, int maximumDamage) {
         this.name = name;
         this.attackPointsCost = attackPointsCost;
@@ -18,14 +24,18 @@ public class Attack {
         } else {
             result = Constants.RANDOM.nextInt(this.minimumDamage, this.maximumDamage);
         }
-        return result;
+        return calculateBonusPercentage(result);
     }
 
     public String toString () {
         String outPut = "Attack: " + this.name + "(" + this.attackPointsCost + "pts)";
         outPut += " Damage: ";
-        outPut += (this.minimumDamage==this.maximumDamage)? + this.maximumDamage: this.minimumDamage + "-" + this.maximumDamage;
+        outPut += (this.minimumDamage==this.maximumDamage)? (calculateBonusPercentage(this.maximumDamage)): (calculateBonusPercentage(this.minimumDamage)) + "-" + (calculateBonusPercentage(this.maximumDamage));
         return outPut;
+    }
+
+    private int calculateBonusPercentage (int num) {
+        return num + (num * this.bonusDamage/ 100);
     }
 
     public int getAttackPointsCost() {

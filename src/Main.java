@@ -40,6 +40,11 @@ public class Main {
                         switchPlayer();
                     }
                 }
+
+                case 2 -> {
+                    currentPlayer[0].skipTurn();
+                    switchPlayer();
+                }
                 default -> System.out.println("Please choose a valid option");
             }
         } while (!endLoop);
@@ -87,4 +92,5 @@ public class Main {
         }
         return copyArray;
     }
+
 }

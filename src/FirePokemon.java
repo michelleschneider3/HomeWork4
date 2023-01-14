@@ -14,8 +14,9 @@ public class FirePokemon extends Pokemon {
     }
 
     public boolean makeAttack (Pokemon other) {
+        boolean result = super.makeAttack(other);
         uniqueAbility();
-        return super.makeAttack(other);
+        return result;
     }
 
     public void specialPower() {
