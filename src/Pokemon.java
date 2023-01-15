@@ -127,10 +127,13 @@ public abstract class Pokemon {
 
     private String printAttacks() {
         String result = "";
+        if(this.tripleDamage){
+            result += "x3\n";
+        }
         if (this.attacks != null) {
             for (int i = 0; i < attacks.length; i++) {
                 int num = i+1;
-                result += "\n" + num + ". " + attacks[i].toString() + ((this.tripleDamage)? " (x3)": "");
+                result += "\n" + num + ". " + attacks[i].toString();
             }
         }
         return result;
@@ -142,7 +145,8 @@ public abstract class Pokemon {
             userInput = chooseAttack();
         } while (!checkPoints(userInput));
         this.currentAttackPoints-= this.attacks[userInput-1].getAttackPointsCost();
-        other.takeDamage(this.attacks[userInput-1]);
+        int damage = this.calculateDamage(this.attacks[userInput-1]);
+        other.takeDamage(damage);
         return other.checkIfDead();
     }
 
@@ -178,14 +182,18 @@ public abstract class Pokemon {
         return result;
     }
 
-    protected void takeDamage (Attack attack) {
-        int damage = attack.randomizeDamage();
+    protected void takeDamage (int damage) {
         removeBonus();
-        if (this.tripleDamage) {
+        this.setCurrentHealth(this.getCurrentHealth()-damage);
+    }
+
+    private int calculateDamage(Attack attack){
+        int damage = attack.randomizeDamage();
+        if(this.tripleDamage){
             damage *= 3;
             this.tripleDamage = false;
         }
-        this.setCurrentHealth(this.getCurrentHealth()-damage);
+        return damage;
     }
 
     private void removeBonus () {

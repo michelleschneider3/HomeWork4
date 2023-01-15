@@ -16,8 +16,8 @@ public class ElectricPokemon extends Pokemon {
         }
     }
 
-    protected void takeDamage (Attack attack) {
-        super.takeDamage(attack);
+    protected void takeDamage (int damage) {
+        super.takeDamage(damage);
         if(checkIfNearDeath()){
             this.electricity = 0;
         }
