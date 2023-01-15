@@ -3,7 +3,6 @@ public class Attack {
     private int attackPointsCost;
     private int minimumDamage;
     private int maximumDamage;
-
     private int bonusDamage;
 
     public void setBonusDamage(int bonusDamage) {

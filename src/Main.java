@@ -42,7 +42,7 @@ public class Main {
                 }
 
                 case 2 -> {
-                    currentPlayer[0].skipTurn();
+                   currentPlayer[0].skipTurn();
                     switchPlayer();
                 }
                 default -> System.out.println("Please choose a valid option");

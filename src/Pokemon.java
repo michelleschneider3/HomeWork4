@@ -9,6 +9,8 @@ public abstract class Pokemon {
     private int currentAttackPoints;
     private Attack[] attacks;
 
+    private boolean tripleDamage;
+
     public abstract int getType();
 
     public abstract void specialPower();
@@ -128,7 +130,7 @@ public abstract class Pokemon {
         if (this.attacks != null) {
             for (int i = 0; i < attacks.length; i++) {
                 int num = i+1;
-                result += "\n" + num + ". " + attacks[i].toString();
+                result += "\n" + num + ". " + attacks[i].toString() + ((this.tripleDamage)? " (x3)": "");
             }
         }
         return result;
@@ -140,7 +142,7 @@ public abstract class Pokemon {
             userInput = chooseAttack();
         } while (!checkPoints(userInput));
         this.currentAttackPoints-= this.attacks[userInput-1].getAttackPointsCost();
-        this.takeDamage(this.attacks[userInput-1], other);
+        other.takeDamage(this.attacks[userInput-1]);
         return other.checkIfDead();
     }
 
@@ -176,10 +178,14 @@ public abstract class Pokemon {
         return result;
     }
 
-    private void takeDamage (Attack attack, Pokemon other) {
+    protected void takeDamage (Attack attack) {
         int damage = attack.randomizeDamage();
         removeBonus();
-        other.setCurrentHealth(other.getCurrentHealth()-damage);
+        if (this.tripleDamage) {
+            damage *= 3;
+            this.tripleDamage = false;
+        }
+        this.setCurrentHealth(this.getCurrentHealth()-damage);
     }
 
     private void removeBonus () {
@@ -194,5 +200,39 @@ public abstract class Pokemon {
             isDead = true;
         }
         return isDead;
+    }
+
+    public void skipTurn () {
+        int bonus = Constants.RANDOM.nextInt(Constants.SKIP_BONUS_ONE, Constants.SKIP_BONUS_THREE+1);
+        switch(bonus) {
+            case Constants.SKIP_BONUS_ONE -> this.receiveHealth();
+            case Constants.SKIP_BONUS_TWO -> this.receiveAttackPoints();
+            case Constants.SKIP_BONUS_THREE -> this.receiveTripleDamage();
+        }
+    }
+
+    private void receiveHealth () {
+        int bonusHealth = Constants.RANDOM.nextInt(Constants.MINIMUM_BONUS_HEALTH, Constants.MAXIMUM_BONUS_HEALTH+1);
+        if (bonusHealth + this.currentHealth > this.maximumHealth) {
+            int difference = (bonusHealth+this.currentHealth)-this.maximumHealth;
+            bonusHealth -= difference;
+        }
+        this.currentHealth += bonusHealth;
+        System.out.println("You received " + bonusHealth + " Hp");
+    }
+
+    private void receiveAttackPoints () {
+        int bonusAttackPoints = Constants.RANDOM.nextInt(Constants.MINIMUM_ATTACK_POINTS, Constants.MAXIMUM_ATTACK_POINTS+1);
+        if (bonusAttackPoints + this.currentAttackPoints > this.maximumAttackPoints) {
+            int difference = (bonusAttackPoints+this.currentAttackPoints)-this.maximumAttackPoints;
+            bonusAttackPoints -= difference;
+        }
+        this.currentAttackPoints += bonusAttackPoints;
+        System.out.println("You received " + bonusAttackPoints + " Attack points");
+    }
+
+    private void receiveTripleDamage() {
+        this.tripleDamage = true;
+        System.out.println("You will have x3 damage for your next attack");
     }
 }

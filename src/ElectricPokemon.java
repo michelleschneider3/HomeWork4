@@ -3,13 +3,23 @@ public class ElectricPokemon extends Pokemon {
     private int type;
 
     public void uniqueAbility () {
+        for (int i = 0; i < this.getAttacks().length; i++) {
+            this.getAttacks()[i].setBonusDamage(this.electricity);
+        }
+    }
+
+    private void calculateElectricity () {
         if (checkIfNearDeath()) {
             this.electricity = 0;
         } else {
             this.electricity += Constants.ELECTRICITY_BOOST;
         }
-        for (int i = 0; i < this.getAttacks().length; i++) {
-            this.getAttacks()[i].setBonusDamage(this.electricity);
+    }
+
+    protected void takeDamage (Attack attack) {
+        super.takeDamage(attack);
+        if(checkIfNearDeath()){
+            this.electricity = 0;
         }
     }
 
@@ -24,7 +34,9 @@ public class ElectricPokemon extends Pokemon {
 
     public boolean makeAttack(Pokemon other) {
         this.uniqueAbility();
-        return super.makeAttack(other);
+        boolean result = super.makeAttack(other);
+        this.calculateElectricity();
+        return result;
     }
 
     public void specialPower() {
