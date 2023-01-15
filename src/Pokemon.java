@@ -243,4 +243,25 @@ public abstract class Pokemon {
         this.tripleDamage = true;
         System.out.println("You will have x3 damage for your next attack");
     }
+
+    public boolean canEvolve (int minimumHealthRequired, int minimumAttackPointsRequired) {
+        boolean result = false;
+        if (this.currentHealth > minimumHealthRequired) {
+            if (this.currentAttackPoints > minimumAttackPointsRequired) {
+                result = true;
+            } else {
+                System.out.println("You dont have enough Attack points to evolve. min required: " + minimumAttackPointsRequired);
+            }
+        } else {
+            System.out.println("You dont have enough Hp to evolve. min required: " + minimumHealthRequired);
+        }
+        return result;
+    }
+
+    public void getCurrents (Pokemon previousLevel) {
+        this.currentHealth = previousLevel.currentHealth;
+        this.currentAttackPoints = previousLevel.currentAttackPoints;
+        this.addAttacks(previousLevel.attacks);
+        this.tripleDamage = previousLevel.tripleDamage;
+    }
 }

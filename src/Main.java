@@ -4,6 +4,10 @@ public class Main {
     private static Pokemon[] otherPlayer = assignNewPokemon();
 
     private static String currentPlayerName = Constants.PLAYER1NAME;
+
+    private static int currentPlayerLevel = 1;
+
+    private static int otherPlayerLevel = 1;
     public static void main(String[] args) {
         welcomeMessage();
         fightMenu();
@@ -16,11 +20,11 @@ public class Main {
         int userInput;
         boolean endLoop = false;
         do {
-            System.out.println(currentPlayer[0] + " (" + currentPlayerName + ")");
+            System.out.println(currentPlayer[currentPlayerLevel-1] + " (" + currentPlayerName + ")");
             switchPlayerName();
-            System.out.println(otherPlayer[0] + " (" + currentPlayerName + ")");
+            System.out.println(otherPlayer[otherPlayerLevel-1] + " (" + currentPlayerName + ")");
             switchPlayerName();
-            System.out.println("Current player: " + currentPlayer[0].getName() + " (" + currentPlayerName+ ")");
+            System.out.println("Current player: " + currentPlayer[currentPlayerLevel-1].getName() + " (" + currentPlayerName+ ")");
             System.out.println("""
                 Choose from the options below
                 1. Choose Attack
@@ -33,8 +37,8 @@ public class Main {
 
             switch (userInput) {
                 case 1 -> {
-                    if (currentPlayer[0].makeAttack(otherPlayer[0])) {
-                        System.out.println(otherPlayer[0].getName() + " is Dead");
+                    if (currentPlayer[currentPlayerLevel-1].makeAttack(otherPlayer[otherPlayerLevel-1])) {
+                        System.out.println(otherPlayer[otherPlayerLevel-1].getName() + " is Dead");
                         endLoop = true;
                     } else {
                         switchPlayer();
@@ -42,8 +46,12 @@ public class Main {
                 }
 
                 case 2 -> {
-                   currentPlayer[0].skipTurn();
+                   currentPlayer[currentPlayerLevel-1].skipTurn();
                     switchPlayer();
+                }
+
+                case 3 -> {
+                    levelUp();
                 }
                 default -> System.out.println("Please choose a valid option");
             }
@@ -67,6 +75,13 @@ public class Main {
         currentPlayer = otherPlayer;
         otherPlayer = temp;
         switchPlayerName();
+        switchLevel();
+    }
+
+    private static void switchLevel () {
+        int temp = currentPlayerLevel;
+        currentPlayerLevel = otherPlayerLevel;
+        otherPlayerLevel = temp;
     }
 
     private static void switchPlayerName () {
@@ -91,6 +106,20 @@ public class Main {
             }
         }
         return copyArray;
+    }
+
+    private static void levelUp () {
+        if (currentPlayerLevel<currentPlayer.length) {
+            int[] minimumHealthRequired = {20, 30};
+            int[] minimumAttackPoints = {25, 40};
+            if (currentPlayer[currentPlayerLevel-1].canEvolve(minimumHealthRequired[currentPlayerLevel-1], minimumAttackPoints[currentPlayerLevel-1])) {
+                currentPlayer[currentPlayerLevel].getCurrents(currentPlayer[currentPlayerLevel-1]);
+                currentPlayerLevel++;
+                switchPlayer();
+            }
+        } else {
+            System.out.println("You are at your max level");
+        }
     }
 
 }
