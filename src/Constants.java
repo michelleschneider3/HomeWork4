@@ -31,6 +31,12 @@ public class Constants {
 
     public static final int MAXIMUM_ATTACK_POINTS = 40;
 
+    public static final int SPECIAL_POWER_FAILED = -1;
+
+    public static final int SPECIAL_POWER_SUCCESSFUL = 1;
+
+    public static final int SPECIAL_POWER_DOUBLE_DAMAGE = 2;
+
     public static final String PLAYER1NAME = "player 1";
     public static final String PLAYER2NAME = "player 2";
     public static final Random RANDOM = new Random();

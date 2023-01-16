@@ -53,6 +53,20 @@ public class Main {
                 case 3 -> {
                     levelUp();
                 }
+
+                case 4 -> {
+                   switch(currentPlayer[currentPlayerLevel-1].specialPower()){
+                       case Constants.SPECIAL_POWER_FAILED -> System.out.println("Special power failed");
+                       case Constants.SPECIAL_POWER_SUCCESSFUL -> switchPlayer();
+                       case Constants.SPECIAL_POWER_DOUBLE_DAMAGE -> {
+                           if (currentPlayer[currentPlayerLevel-1].giveDoubleDamage(otherPlayer[otherPlayerLevel-1])) {
+                               System.out.println(otherPlayer[otherPlayerLevel-1].getName() + " is dead");
+                           } else {
+                               switchPlayer();
+                           }
+                       }
+                   }
+                }
                 default -> System.out.println("Please choose a valid option");
             }
         } while (!endLoop);

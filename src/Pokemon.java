@@ -13,7 +13,7 @@ public abstract class Pokemon {
 
     public abstract int getType();
 
-    public abstract void specialPower();
+    public abstract int specialPower();
 
     public abstract void uniqueAbility ();
     protected Pokemon(String name, int level, int maximumHealth, int maximumAttack, Attack[] attacks){
@@ -53,6 +53,10 @@ public abstract class Pokemon {
 
     public int getCurrentHealth() {
         return currentHealth;
+    }
+
+    public void setCurrentAttackPoints(int currentAttackPoints) {
+        this.currentAttackPoints = currentAttackPoints;
     }
 
     public int getMaximumAttackPoints() {
@@ -187,7 +191,7 @@ public abstract class Pokemon {
         this.setCurrentHealth(this.getCurrentHealth()-damage);
     }
 
-    private int calculateDamage(Attack attack){
+    protected int calculateDamage(Attack attack){
         int damage = attack.randomizeDamage();
         if(this.tripleDamage){
             damage *= 3;
@@ -263,5 +267,19 @@ public abstract class Pokemon {
         this.currentAttackPoints = previousLevel.currentAttackPoints;
         this.addAttacks(previousLevel.attacks);
         this.tripleDamage = previousLevel.tripleDamage;
+    }
+    public boolean giveDoubleDamage (Pokemon other) {
+        int index;
+        int damage=0;
+        boolean isDead=false;
+        for (int i = 0; i < 2; i++) {
+            index = Constants.RANDOM.nextInt(this.getAttacks().length);
+            damage += calculateDamage(this.getAttacks()[index]);
+        }
+        other.setCurrentHealth(other.getCurrentHealth()-damage);
+        if (other.getCurrentHealth()<=0) {
+            isDead=true;
+        }
+        return isDead;
     }
 }

@@ -19,9 +19,30 @@ public class FirePokemon extends Pokemon {
         return result;
     }
 
-    public void specialPower() {
-
+    public int specialPower() {
+        int result = Constants.SPECIAL_POWER_FAILED;
+        if (this.getCurrentHealth()/2>0) {
+            this.setCurrentHealth(this.getCurrentHealth() / 2);
+            this.setCurrentAttackPoints(0);
+            result = Constants.SPECIAL_POWER_DOUBLE_DAMAGE;
+        }
+        return result;
     };
+
+    public boolean giveDoubleDamage (Pokemon other) {
+        int index;
+        int damage=0;
+        boolean isDead=false;
+        for (int i = 0; i < 2; i++) {
+            index = Constants.RANDOM.nextInt(this.getAttacks().length);
+            damage += calculateDamage(this.getAttacks()[index]);
+        }
+        other.setCurrentHealth(other.getCurrentHealth()-damage);
+        if (other.getCurrentHealth()<=0) {
+            isDead=true;
+        }
+        return isDead;
+    }
     public FirePokemon (String name, int level, int maximumHealth, int maximumAttack, Attack[] attacks) {
         super(name,level,maximumHealth,maximumAttack, attacks);
         this.type = Constants.FIRE_TYPE;
