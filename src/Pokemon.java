@@ -37,6 +37,7 @@ public abstract class Pokemon {
         this.attacks = other.attacks;
         this.currentHealth = other.currentHealth;
         this.currentAttackPoints = other.currentAttackPoints;
+        this.tripleDamage = other.tripleDamage;
     }
 
     public String getName() {
@@ -121,8 +122,8 @@ public abstract class Pokemon {
     }
 
     public String toString(){
-        String outPut = "-------------------------------------------------";
-        outPut += "\nName: " + this.name;
+        String outPut = "";
+        outPut += "Name: " + this.name;
         outPut += ", Lvl: " + this.level;
         outPut += ", Hp: " + this.currentHealth + "/" + this.maximumHealth;
         outPut += ", Attack Pts: " + this.currentAttackPoints + "/" + this.maximumAttackPoints;
@@ -131,19 +132,17 @@ public abstract class Pokemon {
 
     private String printAttacks() {
         String result = "";
-        if(this.tripleDamage){
-            result += "x3\n";
-        }
+
         if (this.attacks != null) {
             for (int i = 0; i < attacks.length; i++) {
                 int num = i+1;
-                result += "\n" + num + ". " + attacks[i].toString();
+                result += "\n" + num + ". " + attacks[i].toString() +  ((this.tripleDamage)? " (x3)" :  "");
             }
         }
         return result;
     }
 
-    public boolean makeAttack (Pokemon other) {
+    public boolean tryToKill(Pokemon other) {
         int userInput;
         do {
             userInput = chooseAttack();
@@ -151,7 +150,11 @@ public abstract class Pokemon {
         this.currentAttackPoints-= this.attacks[userInput-1].getAttackPointsCost();
         int damage = this.calculateDamage(this.attacks[userInput-1]);
         other.takeDamage(damage);
-        return other.checkIfDead();
+        boolean result = other.checkIfDead();
+        if(result){
+            System.out.println("Your opponent ("+ other.name + ") has died");
+        }
+        return result;
     }
 
 
@@ -225,22 +228,24 @@ public abstract class Pokemon {
 
     private void receiveHealth () {
         int bonusHealth = Constants.RANDOM.nextInt(Constants.MINIMUM_BONUS_HEALTH, Constants.MAXIMUM_BONUS_HEALTH+1);
-        if (bonusHealth + this.currentHealth > this.maximumHealth) {
-            int difference = (bonusHealth+this.currentHealth)-this.maximumHealth;
-            bonusHealth -= difference;
-        }
+        bonusHealth = removeDifferenceFromMax(bonusHealth,currentHealth,maximumHealth);
         this.currentHealth += bonusHealth;
         System.out.println("You received " + bonusHealth + " Hp");
     }
 
     private void receiveAttackPoints () {
         int bonusAttackPoints = Constants.RANDOM.nextInt(Constants.MINIMUM_ATTACK_POINTS, Constants.MAXIMUM_ATTACK_POINTS+1);
-        if (bonusAttackPoints + this.currentAttackPoints > this.maximumAttackPoints) {
-            int difference = (bonusAttackPoints+this.currentAttackPoints)-this.maximumAttackPoints;
-            bonusAttackPoints -= difference;
-        }
+        bonusAttackPoints = removeDifferenceFromMax(bonusAttackPoints,currentAttackPoints,maximumAttackPoints);
         this.currentAttackPoints += bonusAttackPoints;
         System.out.println("You received " + bonusAttackPoints + " Attack points");
+    }
+
+    private int removeDifferenceFromMax(int num, int currentPoints, int maxPoints){
+        if(num + currentPoints > maxPoints){
+            int difference = (num + currentPoints) - maxPoints;
+            num -= difference;
+        }
+        return num;
     }
 
     private void receiveTripleDamage() {
@@ -268,18 +273,16 @@ public abstract class Pokemon {
         this.addAttacks(previousLevel.attacks);
         this.tripleDamage = previousLevel.tripleDamage;
     }
-    public boolean giveDoubleDamage (Pokemon other) {
+    public boolean takeDoubleDamage (Pokemon current) {
         int index;
         int damage=0;
-        boolean isDead=false;
+
         for (int i = 0; i < 2; i++) {
-            index = Constants.RANDOM.nextInt(this.getAttacks().length);
-            damage += calculateDamage(this.getAttacks()[index]);
+            index = Constants.RANDOM.nextInt(current.getAttacks().length);
+            damage += calculateDamage(current.getAttacks()[index]);
         }
-        other.setCurrentHealth(other.getCurrentHealth()-damage);
-        if (other.getCurrentHealth()<=0) {
-            isDead=true;
-        }
-        return isDead;
+        this.takeDamage(damage);
+
+        return this.checkIfDead();
     }
 }

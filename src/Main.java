@@ -20,11 +20,15 @@ public class Main {
         int userInput;
         boolean endLoop = false;
         do {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("------------------------------------CURRENT------------------------------------");
             System.out.println(currentPlayer[currentPlayerLevel-1] + " (" + currentPlayerName + ")");
+            System.out.println("-------------------------------------------------------------------------------");
             switchPlayerName();
             System.out.println(otherPlayer[otherPlayerLevel-1] + " (" + currentPlayerName + ")");
             switchPlayerName();
-            System.out.println("Current player: " + currentPlayer[currentPlayerLevel-1].getName() + " (" + currentPlayerName+ ")");
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+           // System.out.println("Current player: " + currentPlayer[currentPlayerLevel-1].getName() + " (" + currentPlayerName+ ")");
             System.out.println("""
                 Choose from the options below
                 1. Choose Attack
@@ -37,8 +41,7 @@ public class Main {
 
             switch (userInput) {
                 case 1 -> {
-                    if (currentPlayer[currentPlayerLevel-1].makeAttack(otherPlayer[otherPlayerLevel-1])) {
-                        System.out.println(otherPlayer[otherPlayerLevel-1].getName() + " is Dead");
+                    if (currentPlayer[currentPlayerLevel-1].tryToKill(otherPlayer[otherPlayerLevel-1])) {
                         endLoop = true;
                     } else {
                         switchPlayer();
@@ -59,8 +62,9 @@ public class Main {
                        case Constants.SPECIAL_POWER_FAILED -> System.out.println("Special power failed");
                        case Constants.SPECIAL_POWER_SUCCESSFUL -> switchPlayer();
                        case Constants.SPECIAL_POWER_DOUBLE_DAMAGE -> {
-                           if (currentPlayer[currentPlayerLevel-1].giveDoubleDamage(otherPlayer[otherPlayerLevel-1])) {
+                           if (otherPlayer[otherPlayerLevel-1].takeDoubleDamage(currentPlayer[currentPlayerLevel-1])) {
                                System.out.println(otherPlayer[otherPlayerLevel-1].getName() + " is dead");
+                               endLoop = true;
                            } else {
                                switchPlayer();
                            }
@@ -107,7 +111,7 @@ public class Main {
     }
 
     private static Pokemon[] assignNewPokemon () {
-        return deepCopyPokemonArray(PokemonRoster.allPokemons[Constants.RANDOM.nextInt(0,PokemonRoster.allPokemons.length-1)]);
+        return deepCopyPokemonArray(PokemonRoster.allPokemons[Constants.RANDOM.nextInt(0,PokemonRoster.allPokemons.length)]);
     }
 
     private static Pokemon[] deepCopyPokemonArray(Pokemon[] pokemon) {

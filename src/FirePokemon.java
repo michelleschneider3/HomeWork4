@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class FirePokemon extends Pokemon {
     private int type;
 
@@ -13,9 +11,13 @@ public class FirePokemon extends Pokemon {
         }
     }
 
-    public boolean makeAttack (Pokemon other) {
-        boolean result = super.makeAttack(other);
+    public boolean tryToKill(Pokemon other) {
+        boolean result = super.tryToKill(other);
         uniqueAbility();
+        if(!result && this.getCurrentHealth() <=0){
+            System.out.println("You killed yourself");
+            result = true;
+        }
         return result;
     }
 
@@ -29,20 +31,6 @@ public class FirePokemon extends Pokemon {
         return result;
     };
 
-    public boolean giveDoubleDamage (Pokemon other) {
-        int index;
-        int damage=0;
-        boolean isDead=false;
-        for (int i = 0; i < 2; i++) {
-            index = Constants.RANDOM.nextInt(this.getAttacks().length);
-            damage += calculateDamage(this.getAttacks()[index]);
-        }
-        other.setCurrentHealth(other.getCurrentHealth()-damage);
-        if (other.getCurrentHealth()<=0) {
-            isDead=true;
-        }
-        return isDead;
-    }
     public FirePokemon (String name, int level, int maximumHealth, int maximumAttack, Attack[] attacks) {
         super(name,level,maximumHealth,maximumAttack, attacks);
         this.type = Constants.FIRE_TYPE;

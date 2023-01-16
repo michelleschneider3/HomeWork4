@@ -10,12 +10,13 @@ public class ElectricPokemon extends Pokemon {
         }
     }
 
+    public void skipTurn(){
+        super.skipTurn();
+        this.calculateElectricity();
+    }
+
     private void calculateElectricity () {
-        if (checkIfNearDeath()) {
-            this.electricity = 0;
-        } else {
-            this.electricity += Constants.ELECTRICITY_BOOST;
-        }
+        this.electricity += Constants.ELECTRICITY_BOOST;
     }
 
     protected void takeDamage (int damage) {
@@ -34,9 +35,9 @@ public class ElectricPokemon extends Pokemon {
         return result;
     }
 
-    public boolean makeAttack(Pokemon other) {
+    public boolean tryToKill(Pokemon other) {
         this.uniqueAbility();
-        boolean result = super.makeAttack(other);
+        boolean result = super.tryToKill(other);
         this.calculateElectricity();
         return result;
     }
@@ -68,7 +69,8 @@ public class ElectricPokemon extends Pokemon {
 
     public void getCurrents(Pokemon previousLevel) {
         super.getCurrents(previousLevel);
-        //this.electricity = previousLevel.electricity; תזכרות צריך לטפל בזה
+        this.electricity = ((ElectricPokemon) previousLevel).electricity;
+        this.isSpecialPowerUsed = ((ElectricPokemon) previousLevel).isSpecialPowerUsed;
         this.calculateElectricity();
     }
 
