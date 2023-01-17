@@ -1,5 +1,8 @@
 public class FirePokemon extends Pokemon {
-    private int type;
+
+    public FirePokemon() {
+
+    }
 
     public void uniqueAbility () {
         int randomNum = Constants.RANDOM.nextInt(Constants.MAXIMUM_PERCENTAGE) + 1;
@@ -11,6 +14,11 @@ public class FirePokemon extends Pokemon {
         }
     }
 
+    public Pokemon createCopy() {
+        FirePokemon other = new FirePokemon();
+        this.copyVariables(other);
+        return other;
+    }
     public boolean tryToKill(Pokemon other) {
         boolean result = super.tryToKill(other);
         uniqueAbility();
@@ -33,18 +41,6 @@ public class FirePokemon extends Pokemon {
 
     public FirePokemon (String name, int level, int maximumHealth, int maximumAttack, Attack[] attacks) {
         super(name,level,maximumHealth,maximumAttack, attacks);
-        this.type = Constants.FIRE_TYPE;
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public FirePokemon (Pokemon other) {
-        super(other);
-    }
-
-    public void selfDamage () {
-
-    }
 }

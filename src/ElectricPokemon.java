@@ -4,10 +4,21 @@ public class ElectricPokemon extends Pokemon {
 
     private boolean isSpecialPowerUsed;
 
+    public ElectricPokemon() {
+        super();
+    }
+
     public void uniqueAbility () {
         for (int i = 0; i < this.getAttacks().length; i++) {
             this.getAttacks()[i].setBonusDamage(this.electricity);
         }
+    }
+
+
+    public Pokemon createCopy() {
+        ElectricPokemon other = new ElectricPokemon();
+        this.copyVariables(other);
+        return other;
     }
 
     public void skipTurn(){
@@ -49,23 +60,14 @@ public class ElectricPokemon extends Pokemon {
             this.setCurrentAttackPoints(this.getMaximumAttackPoints());
             isSpecialPowerUsed = true;
             result = Constants.SPECIAL_POWER_SUCCESSFUL;
+            this.calculateElectricity();
         }
         return result;
     };
 
     public ElectricPokemon (String name, int level, int maximumHealth, int maximumAttack, Attack[] attacks) {
         super(name,level,maximumHealth,maximumAttack, attacks);
-        this.type = Constants.ELECTRIC_TYPE;
     }
-
-    public int getType() {
-        return type;
-    }
-
-    public ElectricPokemon(Pokemon other) {
-        super(other);
-    }
-
 
     public void getCurrents(Pokemon previousLevel) {
         super.getCurrents(previousLevel);

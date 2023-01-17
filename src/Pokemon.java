@@ -11,33 +11,34 @@ public abstract class Pokemon {
 
     private boolean tripleDamage;
 
-    public abstract int getType();
-
     public abstract int specialPower();
 
     public abstract void uniqueAbility ();
+    public abstract Pokemon createCopy();
     protected Pokemon(String name, int level, int maximumHealth, int maximumAttack, Attack[] attacks){
         this.name = name;
         this.level = level;
         this.maximumHealth = maximumHealth;
-        //this.currentHealth = maximumHealth;
         this.maximumAttackPoints = maximumAttack;
         this.addAttacks(attacks);
-        //this.setCurrentAttackPoints();
         if (level == 1) {
             this.calculateStartGameStats();
         }
     }
 
-    public Pokemon(Pokemon other){
-        this.name = other.name;
-        this.level = other.level;
-        this.maximumHealth = other.maximumHealth;
-        this.maximumAttackPoints = other.maximumAttackPoints;
-        this.attacks = other.attacks;
-        this.currentHealth = other.currentHealth;
-        this.currentAttackPoints = other.currentAttackPoints;
-        this.tripleDamage = other.tripleDamage;
+    public Pokemon() {
+
+    }
+
+    protected void copyVariables(Pokemon other){
+        other.name = this.name;
+        other.level = this.level;
+        other.maximumHealth = this.maximumHealth;
+        other.maximumAttackPoints = this.maximumAttackPoints;
+        other.attacks = this.attacks;
+        other.currentHealth = this.currentHealth;
+        other.currentAttackPoints = this.currentAttackPoints;
+        other.tripleDamage = this.tripleDamage;
     }
 
     public String getName() {
@@ -68,24 +69,8 @@ public abstract class Pokemon {
         return attacks;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public void setMaximumHealth(int maximumHealth) {
-        this.maximumHealth = maximumHealth;
-    }
-
     public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
-    }
-
-    public void setMaximumAttackPoints(int maximumAttackPoints) {
-        //this.maximumAttackPoints = maximumAttackPoints;
     }
 
     private void calculateStartGameStats() {
@@ -111,10 +96,6 @@ public abstract class Pokemon {
             i++;
         } while (i != newAttacks.length);
         this.attacks = largerArray;
-    }
-
-    public int getCurrentAttackPoints() {
-        return currentAttackPoints;
     }
 
     private int calculateStartAttackPoints (int maximumAttackPoints) {
@@ -275,7 +256,7 @@ public abstract class Pokemon {
     }
     public boolean takeDoubleDamage (Pokemon current) {
         int index;
-        int damage=0;
+        int damage = 0;
 
         for (int i = 0; i < 2; i++) {
             index = Constants.RANDOM.nextInt(current.getAttacks().length);
