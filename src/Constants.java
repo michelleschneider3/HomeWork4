@@ -54,6 +54,8 @@ public class Constants {
     public static final int LEVEL_UP = 3;
 
     public static final int SPECIAL_POWER = 4;
+
+    public static final int FIRST_LEVEL = 1;
     public static final Random RANDOM = new Random();
 
     public static final Scanner SCANNER = new Scanner(System.in);

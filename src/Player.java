@@ -3,9 +3,9 @@ public class Player {
     private int level;
     private Pokemon[] pokemon;
 
-    public Player(String name, int level, Pokemon[] pokemon) {
+    public Player(String name, Pokemon[] pokemon) {
         this.name = name;
-        this.level = level;
+        this.level = Constants.FIRST_LEVEL;
         this.pokemon = pokemon;
     }
 

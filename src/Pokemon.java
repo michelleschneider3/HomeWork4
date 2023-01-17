@@ -21,7 +21,7 @@ public abstract class Pokemon {
         this.maximumHealth = maximumHealth;
         this.maximumAttackPoints = maximumAttack;
         this.addAttacks(attacks);
-        if (level == 1) {
+        if (level == Constants.FIRST_LEVEL) {
             this.calculateStartGameStats();
         }
     }
@@ -187,11 +187,7 @@ public abstract class Pokemon {
     }
 
     private boolean checkIfDead () {
-        boolean isDead = false;
-        if (this.currentHealth<=0) {
-            isDead = true;
-        }
-        return isDead;
+        return this.currentHealth <= Constants.NO_HEALTH;
     }
 
     public void skipTurn () {
@@ -207,14 +203,14 @@ public abstract class Pokemon {
         int bonusHealth = Constants.RANDOM.nextInt(Constants.MINIMUM_BONUS_HEALTH, Constants.MAXIMUM_BONUS_HEALTH+1);
         bonusHealth = removeDifferenceFromMax(bonusHealth,currentHealth,maximumHealth);
         this.currentHealth += bonusHealth;
-        System.out.println("You received " + bonusHealth + " Hp");
+        System.out.println("You received " + bonusHealth + " Hp for skipping");
     }
 
     private void receiveAttackPoints () {
         int bonusAttackPoints = Constants.RANDOM.nextInt(Constants.MINIMUM_ATTACK_POINTS, Constants.MAXIMUM_ATTACK_POINTS+1);
         bonusAttackPoints = removeDifferenceFromMax(bonusAttackPoints,currentAttackPoints,maximumAttackPoints);
         this.currentAttackPoints += bonusAttackPoints;
-        System.out.println("You received " + bonusAttackPoints + " Attack points");
+        System.out.println("You received " + bonusAttackPoints + " Attack points for skipping");
     }
 
     private int removeDifferenceFromMax(int num, int currentPoints, int maxPoints){
@@ -227,7 +223,7 @@ public abstract class Pokemon {
 
     private void receiveTripleDamage() {
         this.tripleDamage = true;
-        System.out.println("You will have x3 damage for your next attack");
+        System.out.println("You will have x3 damage for your next attack for skipping");
     }
 
     public boolean canEvolve (int minimumHealthRequired, int minimumAttackPointsRequired) {
@@ -258,7 +254,7 @@ public abstract class Pokemon {
             index = Constants.RANDOM.nextInt(current.getAttacks().length);
             damage += calculateDamage(current.getAttacks()[index]);
         }
-        System.out.println("You double attack your opponent and damaged him with " + damage + " points");
+        System.out.println("You double attacked your opponent and damaged him with " + damage + " points");
         this.takeDamage(damage);
 
         return this.checkIfDead();

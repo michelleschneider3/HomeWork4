@@ -65,7 +65,7 @@ public class ElectricPokemon extends Pokemon {
             System.out.println("You have already used your special power");
         }
         return result;
-    };
+    }
 
     public ElectricPokemon (String name, int level, int maximumHealth, int maximumAttack, Attack[] attacks) {
         super(name,level,maximumHealth,maximumAttack, attacks);

@@ -39,7 +39,7 @@ public class FirePokemon extends Pokemon {
             System.out.println("You cant do special power because you will die");
         }
         return result;
-    };
+    }
 
     public FirePokemon (String name, int level, int maximumHealth, int maximumAttack, Attack[] attacks) {
         super(name,level,maximumHealth,maximumAttack, attacks);
