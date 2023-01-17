@@ -45,10 +45,6 @@ public abstract class Pokemon {
         return name;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
     public int getMaximumHealth() {
         return maximumHealth;
     }
@@ -262,8 +258,19 @@ public abstract class Pokemon {
             index = Constants.RANDOM.nextInt(current.getAttacks().length);
             damage += calculateDamage(current.getAttacks()[index]);
         }
+        System.out.println("You double attack your opponent and damaged him with " + damage + " points");
         this.takeDamage(damage);
 
         return this.checkIfDead();
+    }
+
+    public void receivePerksPerTurn() {
+        int healthBoost = Constants.RANDOM.nextInt(Constants.MINIMUM_PERK_PER_TURN,Constants.MAXIMUM_PERK_PER_TURN);
+        int attackBoost = Constants.RANDOM.nextInt(Constants.MINIMUM_PERK_PER_TURN,Constants.MAXIMUM_PERK_PER_TURN);
+        healthBoost = removeDifferenceFromMax(healthBoost, this.currentHealth, this.maximumHealth);
+        attackBoost = removeDifferenceFromMax(attackBoost, this.currentAttackPoints, this.maximumAttackPoints);
+        this.currentHealth +=healthBoost;
+        this.currentAttackPoints +=attackBoost;
+        System.out.print("You received " + healthBoost + " Hp and " + attackBoost + " attack points for your next turn ");
     }
 }

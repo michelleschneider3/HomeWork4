@@ -31,10 +31,12 @@ public class FirePokemon extends Pokemon {
 
     public int specialPower() {
         int result = Constants.SPECIAL_POWER_FAILED;
-        if (this.getCurrentHealth()/2>0) {
-            this.setCurrentHealth(this.getCurrentHealth() / 2);
-            this.setCurrentAttackPoints(0);
+        if (this.getCurrentHealth()/2>Constants.NO_HEALTH) {
+            this.setCurrentHealth(this.getCurrentHealth()/2);
+            this.setCurrentAttackPoints(Constants.NO_ATTACK_POINTS);
             result = Constants.SPECIAL_POWER_DOUBLE_DAMAGE;
+        } else {
+            System.out.println("You cant do special power because you will die");
         }
         return result;
     };

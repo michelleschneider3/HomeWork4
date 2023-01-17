@@ -13,35 +13,23 @@ public class Player {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getLevel() {
         return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
     }
 
     public Pokemon[] getPokemon() {
         return pokemon;
     }
 
-    public void setPokemon(Pokemon[] pokemon) {
-        this.pokemon = pokemon;
-    }
-
     public boolean levelUp () {
         boolean result = false;
         if (this.level < this.getPokemon().length) {
-            int[] minimumHealthRequired = {20, 30};
-            int[] minimumAttackPoints = {25, 40};
-            if (this.pokemon[this.level-1].canEvolve(minimumHealthRequired[this.level-1], minimumAttackPoints[this.level-1])) {
+            if (this.pokemon[this.level-1].canEvolve(Constants.MINIMUM_HEALTH_REQUIRED_PER_LEVEL[this.level-1],
+                    Constants.MINIMUM_ATTACK_POINTS_REQUIRED_PER_LEVEL[this.level-1])) {
                 this.pokemon[this.level].getCurrents(this.pokemon[this.level-1]);
                 this.level++;
                 result = true;
+                System.out.println("You have leveled up");
             }
         } else {
             System.out.println("You are at your max level");

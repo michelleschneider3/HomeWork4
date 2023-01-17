@@ -1,6 +1,5 @@
 public class ElectricPokemon extends Pokemon {
     private int electricity;
-    private int type;
 
     private boolean isSpecialPowerUsed;
 
@@ -61,6 +60,9 @@ public class ElectricPokemon extends Pokemon {
             isSpecialPowerUsed = true;
             result = Constants.SPECIAL_POWER_SUCCESSFUL;
             this.calculateElectricity();
+            System.out.println("You have boosted your health and attack points to maximum");
+        } else {
+            System.out.println("You have already used your special power");
         }
         return result;
     };

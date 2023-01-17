@@ -17,23 +17,23 @@ public class Main {
             Constants.SCANNER.nextLine();
 
             switch (userInput) {
-                case 1 -> {
+                case Constants.CHOOSE_ATTACK -> {
                     if (currentPlayer.getPokemon()[currentPlayer.getLevel()-1].tryToKill(otherPlayer.getPokemon()[otherPlayer.getLevel()-1])) {
                         endLoop = true;
                     } else {
                         switchPlayer();
                     }
                 }
-                case 2 -> {
+                case Constants.SKIP_TURN -> {
                    currentPlayer.getPokemon()[currentPlayer.getLevel()-1].skipTurn();
                     switchPlayer();
                 }
-                case 3 -> {
+                case Constants.LEVEL_UP -> {
                     if(currentPlayer.levelUp()){
                         switchPlayer();
                     }
                 }
-                case 4 -> {
+                case Constants.SPECIAL_POWER -> {
                    switch(currentPlayer.getPokemon()[currentPlayer.getLevel()-1].specialPower()){
                        case Constants.SPECIAL_POWER_FAILED -> System.out.println("Special power failed");
                        case Constants.SPECIAL_POWER_SUCCESSFUL -> switchPlayer();
@@ -78,9 +78,10 @@ public class Main {
 
                 PRESS ENTER TO START""");
         Constants.SCANNER.nextLine();
-        System.out.println("start");
     }
     private static void switchPlayer () {
+        currentPlayer.getPokemon()[currentPlayer.getLevel()-1].receivePerksPerTurn();
+        System.out.print("(" + currentPlayer.getName() + ")\n");
         Player temp = currentPlayer;
         currentPlayer = otherPlayer;
         otherPlayer = temp;
