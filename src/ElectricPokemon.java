@@ -53,6 +53,7 @@ public class ElectricPokemon extends Pokemon {
     }
 
     public int specialPower() { //O(1)
+        this.removeTripleDamage();
         int result=Constants.SPECIAL_POWER_FAILED;
         if (!isSpecialPowerUsed) {
             this.setCurrentHealth(this.getMaximumHealth());

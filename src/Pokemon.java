@@ -30,6 +30,12 @@ public abstract class Pokemon {
 
     }
 
+    protected void removeTripleDamage(){
+        if(this.tripleDamage){
+            this.tripleDamage = false;
+        }
+    }
+
     protected void copyVariables(Pokemon other){  //O(1)
         other.name = this.name;
         other.level = this.level;
@@ -191,6 +197,7 @@ public abstract class Pokemon {
     }
 
     public void skipTurn () { //O(1)
+        this.removeTripleDamage();
         int bonus = Constants.RANDOM.nextInt(Constants.SKIP_BONUS_ONE, Constants.SKIP_BONUS_THREE+1);
         switch(bonus) {
             case Constants.SKIP_BONUS_ONE -> this.receiveHealth();
@@ -244,7 +251,6 @@ public abstract class Pokemon {
         this.currentHealth = previousLevel.currentHealth;
         this.currentAttackPoints = previousLevel.currentAttackPoints;
         this.addAttacks(previousLevel.attacks);
-        this.tripleDamage = previousLevel.tripleDamage;
     }
     public boolean takeDoubleDamage (Pokemon current) { //O(1)
         int index;
