@@ -8,7 +8,7 @@ public class Main {
         fightMenu();
     }
 
-    private static void fightMenu() {
+    private static void fightMenu() {  //O(n)
         int userInput;
         boolean endLoop = false;
         do {
@@ -52,7 +52,7 @@ public class Main {
         } while (!endLoop);
     }
 
-    private static void printStats(){
+    private static void printStats(){ //O(1)
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         System.out.println("------------------------------------CURRENT------------------------------------");
         System.out.println(currentPlayer);
@@ -67,7 +67,7 @@ public class Main {
                 4. Special power
                 """);
     }
-    private static void welcomeMessage () {
+    private static void welcomeMessage () { //O(1)
         System.out.println("""
                 Welcome to our Pokemon fight game!!!,
                 Here is a little info about our game:
@@ -88,7 +88,7 @@ public class Main {
         Constants.SCANNER.nextLine();
     }
 
-    private static String printLevelUpCosts(){
+    private static String printLevelUpCosts(){ //O(1)
         String output = "";
         for (int i = 1; i <= Constants.MINIMUM_ATTACK_POINTS_REQUIRED_PER_LEVEL.length; i++) {
             output += "\nLevel "+ (i)  + " to level " + (i+1) + " - " + Constants.MINIMUM_ATTACK_POINTS_REQUIRED_PER_LEVEL[i-1] + " attack points";
@@ -97,7 +97,7 @@ public class Main {
 
         return output;
     }
-    private static void switchPlayer () {
+    private static void switchPlayer () { //O(1)
         currentPlayer.getPokemon()[currentPlayer.getLevel()-1].receivePerksPerTurn();
         System.out.print("(" + currentPlayer.getName() + ")\n");
         Player temp = currentPlayer;
@@ -105,11 +105,11 @@ public class Main {
         otherPlayer = temp;
     }
 
-    private static Pokemon[] assignNewPokemon () {
+    private static Pokemon[] assignNewPokemon () { //(O(n)
         return deepCopyPokemonArray(PokemonRoster.allPokemons[Constants.RANDOM.nextInt(0,PokemonRoster.allPokemons.length)]);
     }
 
-    private static Pokemon[] deepCopyPokemonArray(Pokemon[] pokemon) {
+    private static Pokemon[] deepCopyPokemonArray(Pokemon[] pokemon) { //O(n)
         Pokemon[] copyArray = new Pokemon[pokemon.length];
         for (int i = 0; i < copyArray.length; i++) {
             copyArray[i] = pokemon[i].createCopy();
